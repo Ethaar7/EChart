@@ -17,8 +17,9 @@ class ChartRepository @Inject constructor() : IChartRepository {
     }
 
     override fun calculateMidPoint(maxNumber: Int, minNumber: Int): Int {
-        return maxNumber + minNumber / 2
+        return (maxNumber + minNumber) / 2
     }
+
 
     override fun calculateClassBoundaries(maxNumber: Int, minNumber: Int): String {
         val firstValue = maxNumber - 0.5
