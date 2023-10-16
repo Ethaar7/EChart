@@ -1,11 +1,10 @@
 package com.example.echart.screen.home
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,37 +45,31 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     onClickAdd: () -> Unit = {},
-    onChangeClassLimits: (String, String) -> Unit,
-    onChangeFrequency: (String) -> Unit,
+    onChangeClassLimits: (String, String, String) -> Unit,
+    onChangeFrequency: (String, String) -> Unit,
 ) {
-    Scaffold(
-            topBar = {
-                TopBar()
-            }
-    ) {paddings->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(paddings)) {
-            item {
-                CardChart()
-            }
-            item {
-                ETable(
-                        data = state,
-                        onAddClicked = onClickAdd,
-                        onChangeClassLimits = onChangeClassLimits,
-                        onChangeFrequency = onChangeFrequency,
-                )
-            }
-            item {
-                Button(
-                        onClick = {},
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .height(56.dp),
-                        colors = ButtonDefaults.buttonColors(primary)
-                ) {
-                    Text(text = "Run", color = text87, style = Typography.bodyLarge)
-                }
+    Scaffold(topBar = { TopBar() }) { paddings ->
+        Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddings)
+        ) {
+            CardChart()
+            ETable(
+                    data = state,
+                    onAddClicked = onClickAdd,
+                    onChangeClassLimits = onChangeClassLimits,
+                    onChangeFrequency = onChangeFrequency,
+            )
+            Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .height(56.dp),
+                    colors = ButtonDefaults.buttonColors(primary)
+            ) {
+                Text(text = "Run", color = text87, style = Typography.bodyLarge)
             }
         }
     }

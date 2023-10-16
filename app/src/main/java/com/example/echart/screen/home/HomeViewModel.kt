@@ -18,41 +18,61 @@ class HomeViewModel @Inject constructor(
 
     init {
         _state.update { it.copy(table = dataSource.getTable()) }
-        addRow()
+      //  addRow()
     }
 
-    fun onChangeClassLimits(first: String, second: String) {
-        _state.update { it.copy(classLimits = Pair(first, second)) }
-        onChangeMidPoint()
+    fun onChangeClassLimits(maxNum: String, minNum: String,id:String) {
+        _state.update { it.copy(table = _state.value.table.map { row ->
+                if (row.id == id) {
+                    row.copy(classLimits = Pair(maxNum, minNum))
+                } else {
+                    row
+                }
+            }.toMutableList()
+        ) }
+        onChangeMidPoint(id)
     }
 
-    fun onChangeFrequency(frequency: String) {
-        _state.update { it.copy(frequency = frequency) }
-        onChangeMidPoint()
+    fun onChangeFrequency(frequency: String,id:String) {
+        _state.update { it.copy(table = _state.value.table.map { row ->
+            if (row.id == id) {
+                row.copy(frequency = frequency)
+            } else {
+                row
+            }
+        }.toMutableList()
+        ) }
     }
 
-    private fun onChangeMidPoint() {
-     with(state.value){
-              if (classLimits.first.isNotBlank() && classLimits.second.isNotBlank() && frequency.isNotBlank()) {
-                val midPoint = dataSource.calculateMidPoint(classLimits.first.toInt(), classLimits.second.toInt())
-                _state.update { it.copy(midPoint = midPoint.toString()) }
-              }
-       }
+    private fun onChangeMidPoint(id:String) {
+        _state.update { it.copy(table = it.table.map { row->
+                if (row.id == id) {
+                    row.copy(midPoint = dataSource.calculateMidPoint(
+                            row.classLimits.first.toInt(),
+                            row.classLimits.second.toInt()
+                    ).toString()
+                    )
+                } else {
+                    row
+                }
+            }.toMutableList()
+        )
+        }
     }
     fun addRow() {
-        if (!(state.value.classLimits.first.isBlank() &&
-            state.value.classLimits.second.isBlank() &&
-            state.value.frequency.isBlank() &&
-            state.value.classBoundaries.isBlank())
-            ){
-            dataSource.addTableEntry(
-                    TableEntry(
-                            state.value.classLimits.toString(),
-                            state.value.frequency,
-                            state.value.classBoundaries
-                    )
-            )
-        }
+//        if (!(state.value.classLimits.first.isBlank() &&
+//            state.value.classLimits.second.isBlank() &&
+//            state.value.frequency.isBlank() &&
+//            state.value.classBoundaries.isBlank())
+//            ){
+//            dataSource.addTableEntry(
+//                    TableEntry(
+//                            state.value.classLimits.toString(),
+//                            state.value.frequency,
+//                            state.value.classBoundaries
+//                    )
+//            )
+//        }
     }
 
 }
