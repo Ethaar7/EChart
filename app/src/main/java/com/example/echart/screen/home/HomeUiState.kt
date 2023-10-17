@@ -4,7 +4,9 @@ import com.example.echart.screen.composable.Header
 
 data class HomeUiState(
     val table: MutableList<TableEntry> = mutableListOf(),
-    var isBarChartVisible: Boolean = false,
+    val classBoundariesList: List<String> = listOf(),
+    val frequencyList:List<Double> = listOf(),
+    val isBarChartVisible: Boolean = false,
     val isLineChartViable: Boolean = false,
     val isShow : Boolean = false ,
     ) {
@@ -21,4 +23,4 @@ data class TableEntry(
     val frequency: String = "",
     val midPoint: String = "",
     val classBoundaries: String = "",
-)
+    )

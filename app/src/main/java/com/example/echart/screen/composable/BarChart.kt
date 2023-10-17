@@ -18,15 +18,14 @@ import com.example.echart.ui.theme.primary
 
 @Composable
 fun BarChartSample(
-    viewModel: HomeViewModel,
-) {
-
-    val state by viewModel.state.collectAsState()
+    classBoundaries: List<String>,
+    frequency: List<Double>,
+ ) {
 
     val testBarParameters: List<BarParameters> = listOf(
         BarParameters(
             dataName = "Completed",
-            data = state.table.map { it.frequency.toDouble() },
+            data = frequency,
             barColor = primary
         )
     )
@@ -35,21 +34,22 @@ fun BarChartSample(
         BarChart(
             chartParameters = testBarParameters,
             gridColor = Color.DarkGray,
-            xAxisData = state.table.map { it.classLimits.first + " - " + it.classLimits.second },
-            isShowGrid = true,
+            xAxisData = classBoundaries,
+            showGridWithSpacer =false,
+            isShowGrid = false,
             animateChart = true,
-            showGridWithSpacer = true,
+            spaceBetweenBars = 2.dp,
             yAxisStyle = TextStyle(
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 color = Color.DarkGray,
             ),
             xAxisStyle = TextStyle(
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 color = Color.DarkGray,
                 fontWeight = FontWeight.W400
             ),
-            yAxisRange = 15,
-            barWidth = 20.dp
+            yAxisRange = 4,
+            barWidth = 24.dp
         )
     }
 }

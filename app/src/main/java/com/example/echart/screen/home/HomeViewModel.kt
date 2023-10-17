@@ -33,10 +33,12 @@ class HomeViewModel @Inject constructor(
         }
         Log.e("table", "updatedTable = $updatedTable")
         _state.value = _state.value.copy(table = updatedTable.toMutableList())
+
         if (state.value.table[id].classLimits.first.isNotEmpty()
             && state.value.table[id].classLimits.second.isNotEmpty()
         ) {
             onChangeMidPoint(id)
+            onChangeClassBoundaries(id)
         }
     }
 
@@ -76,7 +78,7 @@ class HomeViewModel @Inject constructor(
         val updatedTable = state.value.table.mapIndexed { index, row ->
             if (index == id) {
                 row.copy(
-                    midPoint = dataSource.calculateClassBoundaries(
+                    classBoundaries = dataSource.calculateClassBoundaries(
                         row.classLimits.first.toInt(),
                         row.classLimits.second.toInt()
                     )
@@ -85,8 +87,8 @@ class HomeViewModel @Inject constructor(
                 row
             }
         }
-        _state.value = _state.value.copy(table = updatedTable.toMutableList())
-        Log.e("ClassBoundaries", "ClassBoundaries = $updatedTable")
+        _state.update { it.copy(table = updatedTable.toMutableList(),classBoundariesList = state.value.table.map { it.classBoundaries }) }
+        Log.e("ClassBoundaries", "ClassBoundaries = ${state.value}")
     }
 
 
@@ -105,12 +107,13 @@ class HomeViewModel @Inject constructor(
 
     fun onCardSelected(index: Int) {
         if (index == 0) {
-            _state.update {
-                it.copy(
+           val frequencies = state.value.table.map { it.frequency.toDouble() }
+            _state.update { it.copy(
+                    classBoundariesList = state.value.table.map { it.classBoundaries },
+                    frequencyList = frequencies,
                     isBarChartVisible = true,
                     isLineChartViable = false
-                )
-            }
+            ) }
         } else {
             _state.update {
                 it.copy(

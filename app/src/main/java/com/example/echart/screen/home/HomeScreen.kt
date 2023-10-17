@@ -92,11 +92,9 @@ fun HomeContent(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-
             CardChart(
                 onCardSelected = onCardSelected,
-                isBarChartVisible = state.isBarChartVisible,
-                isLineChartViable = state.isLineChartViable
+                state = state,
             )
 
             ETable(

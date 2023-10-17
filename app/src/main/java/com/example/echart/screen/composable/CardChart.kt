@@ -19,30 +19,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.aay.compose.barChart.BarChart
 import com.example.echart.R
+import com.example.echart.screen.home.HomeUiState
 import com.example.echart.ui.theme.CardColor
 import com.example.echart.ui.theme.primary
 
 @Composable
 fun CardChart(
     onCardSelected: (Int) -> Unit,
-    isBarChartVisible: Boolean = false,
-    isLineChartViable: Boolean = false
+    state : HomeUiState,
 ) {
 
-    AnimatedVisibility(visible = isBarChartVisible) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .height(152.dp)
-                .background(primary)
-        ) {
-
+    AnimatedVisibility(visible = state.isBarChartVisible) {
+        Box(modifier = Modifier.fillMaxWidth().padding(16.dp).height(152.dp)) {
+            BarChartSample(
+                classBoundaries = state.classBoundariesList,
+                frequency = state.frequencyList
+            )
         }
     }
-    AnimatedVisibility(visible = isLineChartViable) {
+    AnimatedVisibility(visible = state.isLineChartViable) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,7 +55,7 @@ fun CardChart(
         }
     }
 
-    AnimatedVisibility(visible = (!isLineChartViable && !isBarChartVisible)) {
+    AnimatedVisibility(visible = (!state.isLineChartViable && !state.isBarChartVisible)) {
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),
