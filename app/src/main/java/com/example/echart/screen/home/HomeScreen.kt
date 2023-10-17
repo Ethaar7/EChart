@@ -41,6 +41,7 @@ fun HomeScreen(
     HomeContent(
         state = state,
         onClickAdd = viewModel::addRow,
+        onCardSelected = viewModel::onCardSelected,
         onChangeClassLimits = viewModel::onChangeClassLimits,
         onChangeFrequency = viewModel::onChangeFrequency,
     )
@@ -51,6 +52,7 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     onClickAdd: () -> Unit = {},
+    onCardSelected: (Int) -> Unit = {},
     onChangeClassLimits: (String, String, Int) -> Unit,
     onChangeFrequency: (String, Int) -> Unit,
 ) {
@@ -90,7 +92,9 @@ fun HomeContent(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-            CardChart()
+
+                CardChart(onCardSelected = onCardSelected)
+
             ETable(
                 data = state,
                 onChangeClassLimits = onChangeClassLimits,

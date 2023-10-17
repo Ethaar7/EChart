@@ -35,7 +35,9 @@ class HomeViewModel @Inject constructor(
         _state.value = _state.value.copy(table = updatedTable.toMutableList())
         if (state.value.table[id].classLimits.first.isNotEmpty()
             && state.value.table[id].classLimits.second.isNotEmpty()
-        ) { onChangeMidPoint(id) }
+        ) {
+            onChangeMidPoint(id)
+        }
     }
 
 
@@ -56,10 +58,10 @@ class HomeViewModel @Inject constructor(
         val updatedTable = state.value.table.mapIndexed { index, row ->
             if (index == id) {
                 row.copy(
-                        midPoint = dataSource.calculateMidPoint(
-                                row.classLimits.first.toInt(),
-                                row.classLimits.second.toInt()
-                        ).toString()
+                    midPoint = dataSource.calculateMidPoint(
+                        row.classLimits.first.toInt(),
+                        row.classLimits.second.toInt()
+                    ).toString()
                 )
             } else {
                 row
@@ -73,14 +75,35 @@ class HomeViewModel @Inject constructor(
     fun addRow() {
         val newId = UUID.randomUUID().toString()
         val newTableEntry = TableEntry(
-                id = newId,
-                classLimits = Pair("", ""),
-                frequency = "",
-                midPoint = ""
+            id = newId,
+            classLimits = Pair("", ""),
+            frequency = "",
+            midPoint = ""
         )
         dataSource.addTableEntry(newTableEntry)
 
         _state.update { it.copy(table = (_state.value.table + newTableEntry) as MutableList<TableEntry>) }
+    }
+
+    fun onCardSelected(index: Int) {
+        if (index == 0) {
+            _state.update {
+                it.copy(
+                    isBarChartVisible = true,
+                    isLineChartViable = false
+                )
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    isBarChartVisible = false,
+                    isLineChartViable = true
+                )
+            }
+        }
+        Log.e("chart", "updatedTable = ${index}")
+        Log.e("chart", "updatedTable = ${state.value}")
+
     }
 
 }

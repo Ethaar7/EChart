@@ -4,12 +4,13 @@ import com.example.echart.screen.composable.Header
 
 data class HomeUiState(
     val table: MutableList<TableEntry> = mutableListOf(),
-
-    ){
+    var isBarChartVisible: Boolean = false,
+    val isLineChartViable: Boolean = false
+) {
     val headers: List<Header> = listOf(
-        Header("Class",3f),
-        Header("Freq",3f),
-        Header("Mid",3f),
+        Header("Class", 3f),
+        Header("Freq", 3f),
+        Header("Mid", 3f),
     )
 }
 
