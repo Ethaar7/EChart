@@ -30,11 +30,7 @@ fun CardChart(
      isBarChartVisible: Boolean = false,
     isLineChartViable: Boolean = false
 ) {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+
         AnimatedVisibility(visible = isBarChartVisible ) {
             Box(modifier = Modifier.fillMaxSize().background(primary)) {
 
@@ -46,43 +42,49 @@ fun CardChart(
             }
         }
 
-        AnimatedVisibility(visible = (!isLineChartViable || !isBarChartVisible) ) {
-            Box(
+        AnimatedVisibility(visible = (!isLineChartViable && !isBarChartVisible) ) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Box(
                     modifier = Modifier
                         .width(160.dp)
                         .height(152.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(CardColor)
                         .clickable(onClick = { onCardSelected(0) }),
-            contentAlignment = Alignment.Center
-            ) {
-            Icon(
-                painter = painterResource(id = R.drawable.column_chart_ascending),
-                contentDescription = "",
-                modifier = Modifier.size(128.dp),
-                tint = primary
-            )
-        }
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.column_chart_ascending),
+                        contentDescription = "",
+                        modifier = Modifier.size(128.dp),
+                        tint = primary
+                    )
+                }
 
-            Box(
-                modifier = Modifier
-                    .width(160.dp)
-                    .height(152.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(CardColor)
-                    .clickable(onClick = { onCardSelected(1) }),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.area_chart_curved),
-                    contentDescription = "",
-                    modifier = Modifier.size(128.dp),
-                    tint = primary
-                )
+                Box(
+                    modifier = Modifier
+                        .width(160.dp)
+                        .height(152.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(CardColor)
+                        .clickable(onClick = { onCardSelected(1) }),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.area_chart_curved),
+                        contentDescription = "",
+                        modifier = Modifier.size(128.dp),
+                        tint = primary
+                    )
+                }
             }
-            
+
         }
 
     }
 
-}
+
