@@ -71,6 +71,24 @@ class HomeViewModel @Inject constructor(
         Log.e("table", "updatedTable = $updatedTable")
     }
 
+    private fun onChangeClassBoundaries(id: Int) {
+        Log.e("table", "id = $id")
+        val updatedTable = state.value.table.mapIndexed { index, row ->
+            if (index == id) {
+                row.copy(
+                    midPoint = dataSource.calculateClassBoundaries(
+                        row.classLimits.first.toInt(),
+                        row.classLimits.second.toInt()
+                    )
+                )
+            } else {
+                row
+            }
+        }
+        _state.value = _state.value.copy(table = updatedTable.toMutableList())
+        Log.e("ClassBoundaries", "ClassBoundaries = $updatedTable")
+    }
+
 
     fun addRow() {
         val newId = UUID.randomUUID().toString()
