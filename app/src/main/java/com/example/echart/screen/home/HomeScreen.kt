@@ -93,7 +93,11 @@ fun HomeContent(
                 .padding(paddings)
         ) {
 
-                CardChart(onCardSelected = onCardSelected)
+            CardChart(
+                onCardSelected = onCardSelected,
+                isBarChartVisible = state.isBarChartVisible,
+                isLineChartViable = state.isLineChartViable
+            )
 
             ETable(
                 data = state,
