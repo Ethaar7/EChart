@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Divider
@@ -54,8 +55,8 @@ fun RowScope.TableCell(weight: Float, content: @Composable () -> Unit) {
 @Composable
 fun ETable(
     data: HomeUiState = HomeUiState(),
-    onChangeClassLimits: (String, String, String) -> Unit,
-    onChangeFrequency: (String, String) -> Unit,
+    onChangeClassLimits: (String, String, Int) -> Unit,
+    onChangeFrequency: (String, Int) -> Unit,
 ) {
     val column1Weight = .3f // 30%
     val column2Weight = .3f // 30%
@@ -71,7 +72,7 @@ fun ETable(
                 headers = data.headers,
                 modifier = Modifier,
                 key = { it.id }
-        ) { entry ->
+        ) { entry,index ->
             TableCell(weight = column1Weight) {
                 BasicTextField(
                     value = "${entry.classLimits.first} - ${entry.classLimits.second}",
@@ -81,7 +82,7 @@ fun ETable(
                             onChangeClassLimits(
                                 values[0].trim(),
                                 values[1].trim(),
-                                entry.id
+                                index
                             )
                         }
                     }
@@ -90,7 +91,7 @@ fun ETable(
             TableCell(weight = column2Weight) {
                 BasicTextField(
                         value = entry.frequency,
-                        onValueChange = { onChangeFrequency(it, entry.id) },
+                        onValueChange = { onChangeFrequency(it, index) },
                 )
             }
             TableCell(weight = column3Weight) {
@@ -129,7 +130,7 @@ fun <T> ColumnScope.EETable(
     borderColor: Color = text60,
     headerColor: Color = primary,
     rowsColor: Color = CardColor,
-    rowContent: @Composable RowScope.(T) -> Unit,
+    rowContent: @Composable RowScope.(T,Int) -> Unit,
 ) {
         LazyColumn(
                 modifier = modifier
@@ -138,13 +139,14 @@ fun <T> ColumnScope.EETable(
         ) {
             stickyHeader { TableHeader(headerColor, rowPadding, maxHeight, headers, border, borderColor) }
             if (data.isNotEmpty()) {
-                items(data, key = key) { data ->
+                itemsIndexed(data) { index,data ->
                     TableRow(
                             rowsColor,
                             rowPadding,
                             maxHeight,
                             rowContent,
                             data,
+                            index,
                             border,
                             borderColor
                     )
@@ -158,8 +160,9 @@ private fun <T> TableRow(
     rowsColor: Color,
     rowPadding: PaddingValues,
     maxHeight: Dp,
-    rowContent: @Composable() (RowScope.(T) -> Unit),
+    rowContent: @Composable() (RowScope.(T,Int) -> Unit),
     data: T,
+    index:Int,
     border: Dp,
     borderColor: Color
 ) {
@@ -172,7 +175,7 @@ private fun <T> TableRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        rowContent(data)
+        rowContent(data,index)
     }
     Divider(
             Modifier.fillMaxWidth(),

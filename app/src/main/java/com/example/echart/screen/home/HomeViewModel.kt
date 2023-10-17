@@ -1,5 +1,6 @@
 package com.example.echart.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.echart.data.IChartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,51 +23,60 @@ class HomeViewModel @Inject constructor(
         addRow()
     }
 
-    fun onChangeClassLimits(maxNum: String, minNum: String,id:String) {
-        _state.update { it.copy(table = _state.value.table.map { row ->
-                if (row.id == id) {
-                    row.copy(classLimits = Pair(maxNum, minNum))
-                } else {
-                    row
-                }
-            }.toMutableList()
-        ) }
-        onChangeMidPoint(maxNum,minNum)
+    fun onChangeClassLimits(maxNum: String, minNum: String, id: Int) {
+        val updatedTable = state.value.table.mapIndexed { index, row ->
+            if (index == id) {
+                row.copy(classLimits = Pair(maxNum, minNum))
+            } else {
+                row
+            }
+        }
+        Log.e("table", "updatedTable = $updatedTable")
+        _state.value = _state.value.copy(table = updatedTable.toMutableList())
+        if (state.value.table[id].classLimits.first.isNotEmpty()
+            && state.value.table[id].classLimits.second.isNotEmpty()
+        ) { onChangeMidPoint(id) }
     }
 
-    fun onChangeFrequency(frequency: String,id:String) {
-        _state.update { it.copy(table = _state.value.table.map { row ->
-            if (row.id == id) {
+
+    fun onChangeFrequency(frequency: String, id: Int) {
+        val updatedTable = state.value.table.mapIndexed { index, row ->
+            if (index == id) {
                 row.copy(frequency = frequency)
             } else {
                 row
             }
-        }.toMutableList()
-        ) }
+        }
+        _state.value = _state.value.copy(table = updatedTable.toMutableList())
+        Log.e("table", "updatedTable = $updatedTable")
     }
-    private fun onChangeMidPoint(max: String, min: String) {
-        _state.update { it.copy(table = it.table.map { row ->
-            if (max == row.classLimits.first && min == row.classLimits.second) {
-                row.copy(midPoint = dataSource.calculateMidPoint(
-                    row.classLimits.first.toInt(),
-                    row.classLimits.second.toInt()
-                ).toString())
+
+    private fun onChangeMidPoint(id: Int) {
+        Log.e("table", "id = $id")
+        val updatedTable = state.value.table.mapIndexed { index, row ->
+            if (index == id) {
+                row.copy(
+                        midPoint = dataSource.calculateMidPoint(
+                                row.classLimits.first.toInt(),
+                                row.classLimits.second.toInt()
+                        ).toString()
+                )
             } else {
                 row
             }
-        }.toMutableList()
-        )}
+        }
+        _state.value = _state.value.copy(table = updatedTable.toMutableList())
+        Log.e("table", "updatedTable = $updatedTable")
     }
-
 
 
     fun addRow() {
         val newId = UUID.randomUUID().toString()
         val newTableEntry = TableEntry(
-            id = newId,
-            classLimits = Pair("", ""),
-            frequency = "",
-            midPoint = ""
+                id = newId,
+                classLimits = Pair("", ""),
+                frequency = "",
+                midPoint = ""
         )
         dataSource.addTableEntry(newTableEntry)
 

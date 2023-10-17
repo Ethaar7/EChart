@@ -51,8 +51,8 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     onClickAdd: () -> Unit = {},
-    onChangeClassLimits: (String, String, String) -> Unit,
-    onChangeFrequency: (String, String) -> Unit,
+    onChangeClassLimits: (String, String, Int) -> Unit,
+    onChangeFrequency: (String, Int) -> Unit,
 ) {
     Scaffold(topBar = { TopBar() }, bottomBar = {
         Column() {
