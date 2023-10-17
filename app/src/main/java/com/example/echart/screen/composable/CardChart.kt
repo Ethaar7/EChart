@@ -49,9 +49,8 @@ fun CardChart(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .height(152.dp)
-                .background(Color.Red)
         ) {
-
+            LineChartSample(state = state)
         }
     }
 

@@ -13,16 +13,19 @@ import com.aay.compose.baseComponents.model.GridOrientation
 import com.aay.compose.lineChart.LineChart
 import com.aay.compose.lineChart.model.LineParameters
 import com.aay.compose.lineChart.model.LineType
+import com.example.echart.screen.home.HomeUiState
 
 @Composable
-fun LineChartSample() {
+fun LineChartSample(
+    state : HomeUiState= HomeUiState()
+) {
 
     val testLineParameters: List<LineParameters> = listOf(
         LineParameters(
-            label = "revenue",
-            data = listOf(70.0, 56.9, 78.8, 40.0, 100.500, 50.0),
+            label = "",
+            data = state.frequencyList,
             lineColor = Color.Gray,
-            lineType = LineType.CURVED_LINE,
+            lineType = LineType.DEFAULT_LINE,
             lineShadow = true,
         )
     )
@@ -33,7 +36,7 @@ fun LineChartSample() {
             linesParameters = testLineParameters,
             isGrid = true,
             gridColor = Color.Blue,
-            xAxisData = listOf("2015", "2016", "2017", "2018", "2019", "2020"),
+            xAxisData = state.classBoundariesList,
             animateChart = true,
             showGridWithSpacer = true,
             yAxisStyle = TextStyle(
@@ -45,7 +48,7 @@ fun LineChartSample() {
                 color = Color.Gray,
                 fontWeight = FontWeight.W400
             ),
-            yAxisRange = 14,
+            yAxisRange = 4,
             oneLineChart = false,
             gridOrientation = GridOrientation.VERTICAL
         )

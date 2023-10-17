@@ -106,8 +106,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onCardSelected(index: Int) {
+        val frequencies = state.value.table.map { it.frequency.toDouble() }
+
         if (index == 0) {
-           val frequencies = state.value.table.map { it.frequency.toDouble() }
             _state.update { it.copy(
                     classBoundariesList = state.value.table.map { it.classBoundaries },
                     frequencyList = frequencies,
@@ -115,12 +116,13 @@ class HomeViewModel @Inject constructor(
                     isLineChartViable = false
             ) }
         } else {
-            _state.update {
-                it.copy(
+            _state.update { it.copy(
+                    classBoundariesList = state.value.table.map { it.midPoint },
+                    frequencyList = frequencies,
                     isBarChartVisible = false,
                     isLineChartViable = true
-                )
-            }
+            ) }
+
         }
         Log.e("chart", "updatedTable = ${index}")
         Log.e("chart", "updatedTable = ${state.value}")
