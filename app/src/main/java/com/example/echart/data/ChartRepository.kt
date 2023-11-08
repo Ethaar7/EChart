@@ -16,12 +16,12 @@ class ChartRepository @Inject constructor() : IChartRepository {
         table.add(entry)
     }
 
-    override fun calculateMidPoint(maxNumber: Int, minNumber: Int): Int {
+    override fun calculateMidPoint(maxNumber: Float, minNumber: Float): Float {
         return (maxNumber + minNumber) / 2
     }
 
 
-    override fun calculateClassBoundaries(maxNumber: Int, minNumber: Int): String {
+    override fun calculateClassBoundaries(maxNumber: Float, minNumber: Float): String {
         val firstValue = maxNumber - 0.5
         val secondValue = minNumber + 0.5
         return "$firstValue-$secondValue"
@@ -31,6 +31,6 @@ class ChartRepository @Inject constructor() : IChartRepository {
 interface IChartRepository {
     fun getTable(): MutableList<TableEntry>
     fun addTableEntry(entry: TableEntry)
-    fun calculateMidPoint(maxNumber: Int, minNumber: Int): Int
-    fun calculateClassBoundaries(maxNumber: Int, minNumber: Int): String
+    fun calculateMidPoint(maxNumber: Float, minNumber: Float): Float
+    fun calculateClassBoundaries(maxNumber: Float, minNumber: Float): String
 }

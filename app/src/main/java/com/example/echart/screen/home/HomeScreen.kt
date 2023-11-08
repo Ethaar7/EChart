@@ -28,7 +28,6 @@ import com.example.echart.screen.composable.TopBar
 import com.example.echart.screen.main.LocalNavigationProvider
 import com.example.echart.ui.theme.Typography
 import com.example.echart.ui.theme.blue
-import com.example.echart.ui.theme.primary
 import com.example.echart.ui.theme.text87
 
 @Composable
@@ -44,6 +43,7 @@ fun HomeScreen(
         onCardSelected = viewModel::onCardSelected,
         onChangeClassLimits = viewModel::onChangeClassLimits,
         onChangeFrequency = viewModel::onChangeFrequency,
+        onClickBake = viewModel::isShowBake
     )
 }
 
@@ -52,17 +52,23 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     onClickAdd: () -> Unit = {},
+    onClickBake: () -> Unit = {},
     onCardSelected: (Int) -> Unit = {},
     onChangeClassLimits: (String, String, Int) -> Unit,
     onChangeFrequency: (String, Int) -> Unit,
 ) {
-    Scaffold(topBar = { TopBar() }, bottomBar = {
+    Scaffold(topBar = {
+        TopBar(
+            isShowBake = state.isShowBake,
+            onClickBake = onClickBake
+        )
+    }, bottomBar = {
         Column() {
             Button(
                 onClick = { onClickAdd() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(blue)
             ) {
@@ -74,16 +80,6 @@ fun HomeContent(
                     )
                     Text(text = "Add label", color = text87, style = Typography.bodySmall)
                 }
-            }
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(primary)
-            ) {
-                Text(text = "Run", color = text87, style = Typography.bodyLarge)
             }
         }
     }) { paddings ->

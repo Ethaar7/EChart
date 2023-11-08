@@ -61,8 +61,8 @@ class HomeViewModel @Inject constructor(
             if (index == id) {
                 row.copy(
                     midPoint = dataSource.calculateMidPoint(
-                        row.classLimits.first.toInt(),
-                        row.classLimits.second.toInt()
+                        row.classLimits.first.toFloat(),
+                        row.classLimits.second.toFloat()
                     ).toString()
                 )
             } else {
@@ -79,15 +79,19 @@ class HomeViewModel @Inject constructor(
             if (index == id) {
                 row.copy(
                     classBoundaries = dataSource.calculateClassBoundaries(
-                        row.classLimits.first.toInt(),
-                        row.classLimits.second.toInt()
+                        row.classLimits.first.toFloat(),
+                        row.classLimits.second.toFloat()
                     )
                 )
             } else {
                 row
             }
         }
-        _state.update { it.copy(table = updatedTable.toMutableList(),classBoundariesList = state.value.table.map { it.classBoundaries }) }
+        _state.update {
+            it.copy(
+                table = updatedTable.toMutableList(),
+                classBoundariesList = state.value.table.map { it.classBoundaries })
+        }
         Log.e("ClassBoundaries", "ClassBoundaries = ${state.value}")
     }
 
@@ -109,24 +113,41 @@ class HomeViewModel @Inject constructor(
         val frequencies = state.value.table.map { it.frequency.toDouble() }
 
         if (index == 0) {
-            _state.update { it.copy(
+            _state.update {
+                it.copy(
                     classBoundariesList = state.value.table.map { it.classBoundaries },
                     frequencyList = frequencies,
                     isBarChartVisible = true,
                     isLineChartViable = false
-            ) }
+                )
+            }
         } else {
-            _state.update { it.copy(
+            _state.update {
+                it.copy(
                     classBoundariesList = state.value.table.map { it.midPoint },
                     frequencyList = frequencies,
                     isBarChartVisible = false,
                     isLineChartViable = true
-            ) }
+                )
+            }
 
         }
+        _state.update { it.copy(isShowBake = true) }
+
         Log.e("chart", "updatedTable = ${index}")
         Log.e("chart", "updatedTable = ${state.value}")
 
     }
+
+    fun isShowBake() {
+        _state.update {
+            it.copy(
+                isShowBake = false,
+                isBarChartVisible = false,
+                isLineChartViable = false
+            )
+        }
+    }
+
 
 }

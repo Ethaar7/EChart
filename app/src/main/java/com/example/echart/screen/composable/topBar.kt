@@ -17,21 +17,43 @@ import com.example.echart.ui.theme.Typography
 import com.example.echart.ui.theme.primary
 
 @Composable
-fun TopBar() {
-    Row(modifier = Modifier.fillMaxWidth().padding(all = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-        Row() {
-            Text(text = "E", style = Typography.titleLarge, color = primary)
-            Text(text = "Chart", style = Typography.titleLarge)
+fun TopBar(
+    isShowBake: Boolean,
+    onClickBake: () -> Unit = {},
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 16.dp), horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        if (isShowBake) {
+            IconButton(onClick = onClickBake) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_back_ios),
+                    contentDescription = ""
+                )
+            }
+        } else {
+            Row() {
+                Text(
+                    text = "E",
+                    style = Typography.titleLarge,
+                    color = primary
+                )
+                Text(
+                    text = "Chart",
+                    style = Typography.titleLarge
+                )
+            }
         }
         IconButton(onClick = {}) {
             Icon(painter = painterResource(id = R.drawable.menu_dots), contentDescription = "")
         }
     }
-
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun jj() {
-    TopBar()
+    TopBar(isShowBake = true)
 }

@@ -14,6 +14,8 @@ import com.aay.compose.lineChart.LineChart
 import com.aay.compose.lineChart.model.LineParameters
 import com.aay.compose.lineChart.model.LineType
 import com.example.echart.screen.home.HomeUiState
+import com.example.echart.ui.theme.primary
+import com.example.echart.ui.theme.text87
 
 @Composable
 fun LineChartSample(
@@ -24,7 +26,7 @@ fun LineChartSample(
         LineParameters(
             label = "",
             data = state.frequencyList,
-            lineColor = Color.Gray,
+            lineColor = primary,
             lineType = LineType.DEFAULT_LINE,
             lineShadow = true,
         )
@@ -35,10 +37,10 @@ fun LineChartSample(
             modifier = Modifier.fillMaxSize(),
             linesParameters = testLineParameters,
             isGrid = true,
-            gridColor = Color.Blue,
+            gridColor = text87,
             xAxisData = state.classBoundariesList,
             animateChart = true,
-            showGridWithSpacer = true,
+            showGridWithSpacer = false,
             yAxisStyle = TextStyle(
                 fontSize = 14.sp,
                 color = Color.Gray,

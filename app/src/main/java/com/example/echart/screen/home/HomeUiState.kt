@@ -8,7 +8,7 @@ data class HomeUiState(
     val frequencyList:List<Double> = listOf(),
     val isBarChartVisible: Boolean = false,
     val isLineChartViable: Boolean = false,
-    val isShow : Boolean = false ,
+    val isShowBake : Boolean = false ,
     ) {
     val headers: List<Header> = listOf(
         Header("Class", 3f),

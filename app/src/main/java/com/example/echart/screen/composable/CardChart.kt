@@ -17,13 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.aay.compose.barChart.BarChart
 import com.example.echart.R
 import com.example.echart.screen.home.HomeUiState
 import com.example.echart.ui.theme.CardColor
@@ -32,11 +28,16 @@ import com.example.echart.ui.theme.primary
 @Composable
 fun CardChart(
     onCardSelected: (Int) -> Unit,
-    state : HomeUiState,
+    state: HomeUiState,
 ) {
 
     AnimatedVisibility(visible = state.isBarChartVisible) {
-        Box(modifier = Modifier.fillMaxWidth().padding(16.dp).height(152.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .height(250.dp)
+        ) {
             BarChartSample(
                 classBoundaries = state.classBoundariesList,
                 frequency = state.frequencyList
@@ -48,7 +49,7 @@ fun CardChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .height(152.dp)
+                .height(250.dp)
         ) {
             LineChartSample(state = state)
         }
@@ -58,12 +59,12 @@ fun CardChart(
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .width(160.dp)
-                    .height(152.dp)
+                    .height(160.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(CardColor)
                     .clickable(onClick = { onCardSelected(0) }),
@@ -80,7 +81,7 @@ fun CardChart(
             Box(
                 modifier = Modifier
                     .width(160.dp)
-                    .height(152.dp)
+                    .height(160.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(CardColor)
                     .clickable(onClick = { onCardSelected(1) }),
@@ -98,4 +99,8 @@ fun CardChart(
 
 }
 
-
+@Preview
+@Composable
+fun uuu() {
+    CardChart(onCardSelected = {}, state = HomeUiState())
+}
